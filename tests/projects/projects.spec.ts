@@ -7,7 +7,7 @@ test(
   async ({ api, testData }) => {
     // A name as a user would type it, with Czech diacritics and symbols. The unique prefix comes
     // first, so the global setup can recognise and delete a leftover.
-    const name = `${buildProject().name} Rekonstrukce kuchyně, řemeslníci & 2× úklid`;
+    const name = `${uniqueName('project')} Rekonstrukce kuchyně, řemeslníci & 2× úklid`;
 
     const created = await test.step('Create a project with a new name', () =>
       testData.createProject({ name }));
