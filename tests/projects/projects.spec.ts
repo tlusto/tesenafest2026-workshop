@@ -9,11 +9,12 @@ test(
     // first, so the global setup can recognise and delete a leftover.
     const name = `${buildProject().name} Rekonstrukce kuchyně, řemeslníci & 2× úklid`;
 
-    const created = await test.step('Create a project with a new name', async () => {
-      const project = await testData.createProject({ name });
-      expect(project).toMatchSchema(Schema.project);
-      expect(project.name).toBe(name);
-      return project;
+    const created = await test.step('Create a project with a new name', () =>
+      testData.createProject({ name }));
+
+    await test.step('Check the name in the create response', () => {
+      expect(created).toMatchSchema(Schema.project);
+      expect(created.name).toBe(name);
     });
 
     await test.step('Load the project and check its name', async () => {
