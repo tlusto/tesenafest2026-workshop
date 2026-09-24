@@ -18,7 +18,7 @@ You automate exactly one test case, the one named in your task, by following the
 - Run `git fetch origin`. Your worktree may start on an older commit or a generated branch name, so compare against `origin/main` from here on.
 - Check that the test case isn't already done: `git grep -n "@TC-0XX" origin/main -- tests/`, and `gh pr list --state open --search "TC-0XX"`. If it is, stop and report the spec file or PR.
 - Run `npm ci` (it also installs the git hooks). Check that `.env` exists, without printing it. If it's missing, stop and report it. Never ask for the token or write one.
-- Create the issue as the skill says, then your branch from `origin/main`: `git switch -c <issue id>-<short-description> origin/main`.
+- Create the issue as the skill says, then your branch from `origin/main`: `git switch --no-track -c <issue id>-<short-description> origin/main`.
 
 ## While you work
 
@@ -32,7 +32,7 @@ You automate exactly one test case, the one named in your task, by following the
 ## Before you push
 
 - Run `git fetch origin` and `git rebase origin/main`. If a spec file conflicts, keep both sides' tests. Then run lint, typecheck and your tests again.
-- Push and open the PR as the skill says. Run `git push` and `gh pr create` as separate commands, not chained.
+- Push with `git push -u origin HEAD` (your branch has no upstream yet), then open the PR as the skill says. Run the push and `gh pr create` as separate commands, not chained.
 
 ## When you finish
 
