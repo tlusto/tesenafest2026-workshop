@@ -25,3 +25,31 @@ test(
     });
   },
 );
+
+test(
+  'TC-006 A renamed project loads under the new name the next time it is opened, not only in the response to the update',
+  { tag: ['@TC-006', '@regression'] },
+  async ({ api, testData }) => {
+    const originalName = uniqueName('project');
+    const newName = `${uniqueName('project')} Přejmenováno: chata & zahrada 2×`;
+
+    const created = await test.step('Create a project with the original name', () =>
+      testData.createProject({ name: originalName }));
+
+    const updated = await test.step('Rename the project', () =>
+      api.projects.update(created.id, { name: newName }));
+
+    await test.step('Check the new name in the update response', () => {
+      expect(updated).toMatchSchema(Schema.project);
+      expect(updated.id).toBe(created.id);
+      expect(updated.name).toBe(newName);
+    });
+
+    await test.step('Load the project again and check it has the new name', async () => {
+      const project = await api.projects.get(created.id);
+      expect(project).toMatchSchema(Schema.project);
+      expect(project.id).toBe(created.id);
+      expect(project.name).toBe(newName);
+    });
+  },
+);
