@@ -5,7 +5,9 @@ test(
   'TC-001 A new project is created and comes back under the name that was entered',
   { tag: ['@TC-001', '@smoke'] },
   async ({ api, testData }) => {
-    const name = uniqueName('project');
+    // A name as a user would type it, with Czech diacritics and symbols. The unique prefix comes
+    // first, so the global setup can recognise and delete a leftover.
+    const name = `${buildProject().name} Rekonstrukce kuchyně, řemeslníci & 2× úklid`;
 
     const created = await test.step('Create a project with a new name', async () => {
       const project = await testData.createProject({ name });
