@@ -31,25 +31,24 @@ test(
   'TC-003 A new task is created with the due date that was entered',
   { tag: ['@TC-003', '@smoke'] },
   async ({ api, testData, accountTimezone }) => {
-    // A week ahead in the account's timezone, not the runner's, so the date is the same
-    // calendar day the user would pick in the app.
+    // A week after "today" as the account sees it, so the entered date is always in the future.
     const enteredDueDate = addDays(todayIn(accountTimezone), 7);
+    // A date without a time is stored as a floating all-day date: no timezone, not recurring.
+    const expectedDue = { date: enteredDueDate, timezone: null, is_recurring: false };
 
     const created = await test.step('Create a task with the due date', () =>
       testData.createTask({ due_date: enteredDueDate }));
 
     await test.step('Check the due date in the create response', () => {
       expect(created).toMatchSchema(Schema.task);
-      expect(created.due?.date).toBe(enteredDueDate);
-      expect(created.due?.is_recurring).toBe(false);
+      expect(created.due).toMatchObject(expectedDue);
     });
 
     await test.step('Load the task and check its due date', async () => {
       const loaded = await api.tasks.get(created.id);
       expect(loaded).toMatchSchema(Schema.task);
       expect(loaded.id).toBe(created.id);
-      expect(loaded.due?.date).toBe(enteredDueDate);
-      expect(loaded.due?.is_recurring).toBe(false);
+      expect(loaded.due).toMatchObject(expectedDue);
     });
   },
 );
