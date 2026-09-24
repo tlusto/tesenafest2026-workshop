@@ -60,7 +60,7 @@ Playwright records request headers in traces and error messages, and has no opti
 
 - Every change goes issue → branch → PR. Branch names follow `<issue id>-<short-description>`.
 - Commit messages must start with `#<issue id> ` (the `commit-msg` hook enforces it). `pre-commit` runs lint-staged (ESLint + Prettier). `pre-push` blocks pushes to `main`.
-- This machine has no global git identity. Commit as `tlusto <93007555+tlusto@users.noreply.github.com>`, the noreply address used by the repo's history. Don't use a personal email, because the repo is public.
+- The repo is public, so commit with your GitHub noreply email (`<id>+<login>@users.noreply.github.com`), never a work or personal one.
 - Issues use the forms in `.github/ISSUE_TEMPLATE/`. `issue-priority.yml` turns the form's "Priority" answer into a `priority: P0–P3` label. `gh issue create --body-file` needs the form's `### Priority` heading followed by `P1 - ...` for that to work.
 - The PR body follows `.github/pull_request_template.md`.
 - Claude never merges PRs. After opening one, run a code review, fix the findings, then reply with the PR URL and a summary. Start the next issue only from the updated `main`.
