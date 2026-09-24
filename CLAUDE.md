@@ -55,6 +55,8 @@ Playwright records request headers in traces and error messages, and has no opti
 - If a feature isn't on the free plan, mark the test `test.fixme()` with the reason.
 - Out of scope: sections, TC-010, and PRs from forks. Workflows must not use `pull_request_target`.
 - Before committing a new test, break its key assertion once and confirm it fails, then check that no `autotest-` data is left behind.
+- To automate several test cases at once, launch one `api-test-writer` agent (`.claude/agents/`) per test case in a single message. Each works in its own worktree and opens its own PR. PRs that touch the same spec file conflict after the first merge, and the rest need a rebase.
+- Every agent defined in `.claude/agents/` has `isolation: worktree` in its frontmatter, so no two agents share a working tree. Claude Code has no project-wide default for this, so each new agent file needs the line.
 
 ## Git and GitHub workflow
 
@@ -63,5 +65,5 @@ Playwright records request headers in traces and error messages, and has no opti
 - The repo is public, so commit with your GitHub noreply email (`<id>+<login>@users.noreply.github.com`), never a work or personal one.
 - Issues use the forms in `.github/ISSUE_TEMPLATE/`. `issue-priority.yml` turns the form's "Priority" answer into a `priority: P0–P3` label. `gh issue create --body-file` needs the form's `### Priority` heading followed by `P1 - ...` for that to work.
 - The PR body follows `.github/pull_request_template.md`.
-- Claude never merges PRs. After opening one, run a code review, fix the findings, then reply with the PR URL and a summary. Start the next issue only from the updated `main`.
+- Claude never merges PRs. After opening one, run a code review, fix the findings, then reply with the PR URL and a summary. Start the next issue only from the updated `main`. The exception is parallel `api-test-writer` agents: each branches from `origin/main` and rebases before pushing.
 - CI: `pr.yml` runs on every PR, and `smoke.yml` runs `@smoke` hourly on `main` and opens or comments on a `smoke-failure` issue. Both share the `todoist-account` concurrency group, since all runs use one account, and CI uses at most 2 workers and 1 retry.

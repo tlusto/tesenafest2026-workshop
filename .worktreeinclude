@@ -1,0 +1,3 @@
+# Git-ignored files that Claude Code copies into new worktrees, such as the
+# ones parallel api-test-writer agents run in. Same syntax as .gitignore.
+.env

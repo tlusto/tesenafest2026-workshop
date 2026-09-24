@@ -13,3 +13,6 @@ playwright/.cache/
 
 # Written by scripts/report-flaky.mts in CI
 flaky-report.md
+
+# Worktrees of parallel Claude Code agents (.claude/agents/api-test-writer.md)
+.claude/worktrees/
